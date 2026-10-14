@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Дракончик и его домик</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="screen-menu" class="screen active">
+  <div class="stars-bg"></div>
+  <div class="menu-content">
+    <div class="dragon-title">
+      <canvas id="menu-dragon-canvas" width="128" height="128"></canvas>
+    </div>
+    <h1 class="game-title">ДРАКОНЧИК</h1>
+    <h2 class="game-subtitle">И ЕГО ДОМИК</h2>
+    <p class="game-desc">~ Платформер с заботой ~</p>
+    <div class="dragon-preview">
+      <canvas id="preview-dragon" width="160" height="180"></canvas>
+    </div>
+    <div class="menu-buttons">
+      <button id="btn-new-game" class="btn btn-primary">НОВАЯ ИГРА</button>
+      <button id="btn-continue" class="btn btn-secondary" style="display:none;">ПРОДОЛЖИТЬ</button>
+    </div>
+    <div class="controls-hint">
+      СТРЕЛКИ - ДВИЖЕНИЕ | ПРОБЕЛ - ПРЫЖОК<br>
+      СОБИРАЙ ЖУЧКОВ И ЗВЁЗДОЧКИ!
+    </div>
+  </div>
+</div>
+
+<div id="screen-game" class="screen">
+  <div class="game-wrapper">
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <button id="btn-quit" class="btn-quit">ВЫЙТИ</button>
+  </div>
+  <div class="controls-bar">
+    <div class="controls-text">СТРЕЛКИ - ДВИЖЕНИЕ | ПРОБЕЛ - ПРЫЖОК | УРОВЕНЬ <span id="level-num">1</span></div>
+  </div>
+  <div class="touch-controls">
+    <div class="touch-left">
+      <div id="touch-left-btn" class="touch-btn">&#9664;</div>
+      <div id="touch-right-btn" class="touch-btn">&#9654;</div>
+    </div>
+    <div id="touch-jump-btn" class="touch-btn touch-jump">&#9650;</div>
+  </div>
+</div>
+
+<div id="screen-home" class="screen">
+  <div class="home-content">
+    <div class="home-header">
+      <button id="btn-home-to-menu" class="btn btn-link">&#9664; МЕНЮ</button>
+      <div class="coins-display"><span id="home-coins">0</span> МОНЕТ</div>
+    </div>
+
+    <div class="house-scene">
+      <div class="sparkle sparkle-1">*</div>
+      <div class="sparkle sparkle-2">*</div>
+      <div class="sparkle sparkle-3">*</div>
+      <div class="house-title">ДОМИК ДРАКОНЧИКА</div>
+
+      <div id="dragon-container" class="dragon-container">
+        <canvas id="home-dragon-canvas" width="120" height="140"></canvas>
+        <div id="action-emoji" class="action-emoji"></div>
+      </div>
+
+      <div id="action-message" class="action-message"></div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-emoji">МЯСО</div>
+          <div class="stat-label">ГОЛОД</div>
+          <div class="stat-bar-bg"><div id="bar-hunger" class="stat-bar stat-hunger" style="width:80%"></div></div>
+          <div id="val-hunger" class="stat-value">80%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-emoji">МОЛНИЯ</div>
+          <div class="stat-label">ЭНЕРГИЯ</div>
+          <div class="stat-bar-bg"><div id="bar-energy" class="stat-bar stat-energy" style="width:80%"></div></div>
+          <div id="val-energy" class="stat-value">80%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-emoji">СМАЙЛ</div>
+          <div class="stat-label">НАСТРОЕНИЕ</div>
+          <div class="stat-bar-bg"><div id="bar-mood" class="stat-bar stat-mood" style="width:80%"></div></div>
+          <div id="val-mood" class="stat-value">80%</div>
+        </div>
+      </div>
+
+      <div class="actions-grid">
+        <button class="btn btn-feed" data-action="feed">ПОКОРМИТЬ</button>
+        <button class="btn btn-bath" data-action="bath">ИСКУПАТЬ</button>
+        <button class="btn btn-sleep" data-action="sleep">УЛОЖИТЬ СПАТЬ</button>
+        <button class="btn btn-play" data-action="play">ПОИГРАТЬ</button>
+      </div>
+    </div>
+
+    <div class="rooms-section">
+      <h3>КОМНАТЫ</h3>
+      <div id="rooms-grid" class="rooms-grid"></div>
+    </div>
+
+    <div class="home-bottom">
+      <button id="btn-shop" class="btn btn-shop">МАГАЗИН</button>
+      <button id="btn-play-game" class="btn btn-play-game">ИГРАТЬ!</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-result" class="screen">
+  <div class="result-card">
+    <div id="result-emoji" class="result-emoji"></div>
+    <h2 id="result-title" class="result-title">УРОВЕНЬ ПРОЙДЕН!</h2>
+    <div id="result-level" class="result-level">УРОВЕНЬ 1</div>
+    <div class="result-stats">
+      <div class="result-stat">
+        <div class="result-stat-icon">ЖУЧКИ</div>
+        <div id="result-bugs" class="result-stat-value">0</div>
+        <div class="result-stat-label">СОБРАНО</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-icon">ЗВЁЗДЫ</div>
+        <div id="result-stars" class="result-stat-value">0</div>
+        <div class="result-stat-label">СОБРАНО</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-icon">МОНЕТЫ</div>
+        <div id="result-coins" class="result-stat-value">+0</div>
+        <div class="result-stat-label">ЗАРАБОТАНО</div>
+      </div>
+    </div>
+    <div id="result-bonus" class="result-bonus">БОНУС: +10% К ПРЫЖКУ НА 3 УРОВНЯ!</div>
+    <div class="result-buttons">
+      <button id="btn-next-level" class="btn btn-primary">СЛЕДУЮЩИЙ УРОВЕНЬ</button>
+      <button id="btn-retry" class="btn btn-retry">ПОВТОРИТЬ</button>
+      <button id="btn-result-home" class="btn btn-outline">ДОМОЙ</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-shop" class="screen">
+  <div class="shop-content">
+    <div class="shop-header">
+      <button id="btn-shop-back" class="btn btn-link">&#9664; НАЗАД</button>
+      <h1>МАГАЗИН</h1>
+      <div class="coins-display"><span id="shop-coins">0</span> МОНЕТ</div>
+    </div>
+
+    <div class="shop-section">
+      <h2>СКИНЫ ДРАКОНЧИКА</h2>
+      <div id="skins-grid" class="skins-grid"></div>
+    </div>
+
+    <div class="shop-section">
+      <h2>КОМНАТЫ ДОМИКА</h2>
+      <div id="shop-rooms-grid" class="shop-rooms-grid"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
